@@ -4,3 +4,4 @@ uvicorn[standard]
 sqlalchemy
 uuid
 datetime
+python-jose[cryptography]
