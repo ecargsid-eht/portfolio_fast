@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(docs_url=None,redoc_url=None)
 origins = [
-    "http://localhost:3000"
+    "https://amrit-utsav.netlify.app"
 ]
 
 app.add_middleware(
