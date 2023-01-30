@@ -1,0 +1,6 @@
+fastapi[all]
+passlib[bcrypt]
+uvicorn[standard]
+sqlalchemy
+uuid
+datetime
