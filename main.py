@@ -8,7 +8,7 @@ from database import models
 from database.database import engine,SessionLocal
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(docs_url=None,redoc_url=None)
+app = FastAPI(redoc_url=None)
 origins = [
     "https://amrit-utsav.netlify.app"
 ]
