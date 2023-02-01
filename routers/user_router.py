@@ -25,7 +25,7 @@ def create_user(user : schemas.UserCreate,db: Session = Depends(database.get_db)
 
 
 @router.get("/",response_model=list[schemas.User])
-def get_users(db: Session = Depends(database.get_db)):
+def get_users(db: Session = Depends(database.get_db),token : str = Depends(verify_admin)):
     users = db.query(models.User).all()
     return users
 
@@ -42,7 +42,7 @@ def login_user(db:Session = Depends(database.get_db),form_data: OAuth2PasswordRe
         raise HTTPException(status_code=401,detail="Incorrect password")    
 
 
-@router.post("/verify-admin/{token}",status_code=200)
+@router.post("/verify-admin/",status_code=200)
 
 def verify_user(user : schemas.User = Depends(verify_admin)):
     return user

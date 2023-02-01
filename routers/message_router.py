@@ -1,14 +1,14 @@
 from fastapi import APIRouter,Depends
 from database import database,models,schemas
 from sqlalchemy.orm import Session
-from routers.JWTToken import oauth2_scheme
+from routers.JWTToken import oauth2_scheme,verify_admin
 router = APIRouter(
     prefix="/messages",
     tags=['message']
 )
 
 @router.get("/",response_model=list[schemas.Message])
-def get_messages(token : str = Depends(oauth2_scheme),db: Session = Depends(database.get_db)):
+def get_messages(token : str = Depends(verify_admin),db: Session = Depends(database.get_db)):
     messages = db.query(models.Message).all()
     return messages
     # return {"token" : token}

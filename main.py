@@ -9,9 +9,10 @@ from database import models
 from database.database import engine,SessionLocal
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(redoc_url=None)
+app = FastAPI(docs = None,redoc_url=None)
 origins = [
-    "https://amrit-utsav.netlify.app"
+    "https://amrit-utsav.netlify.app",
+    # "http://localhost:3000"
 ]
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
