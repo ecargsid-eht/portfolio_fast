@@ -1,5 +1,6 @@
 from fastapi import APIRouter,Depends,HTTPException
 from database import database,models,schemas
+from routers.JWTToken import oauth2_scheme
 from sqlalchemy.orm import Session
 
 router = APIRouter(
@@ -13,7 +14,7 @@ def get_projects(db: Session = Depends(database.get_db)):
     return projects
 
 @router.post("/create-project",response_model=schemas.Project,status_code=201)
-def create_project(project: schemas.ProjectCreate,db: Session = Depends(database.get_db)):
+def create_project(project: schemas.ProjectCreate,db: Session = Depends(database.get_db),token: str = Depends(oauth2_scheme)):
     new_project = models.Project(title = project.title, description = project.description, link = project.link)
     db.add(new_project)
     db.commit()
@@ -21,7 +22,7 @@ def create_project(project: schemas.ProjectCreate,db: Session = Depends(database
     return new_project
 
 @router.delete("/delete-project/{id}")
-def delete_project(id:int,db: Session = Depends(database.get_db)):
+def delete_project(id:int,db: Session = Depends(database.get_db),token: str = Depends(oauth2_scheme)):
     project = db.query(models.Project).filter(models.Project.id == id)
     if not project:
         raise HTTPException(status_code=404,detail="Project not found")

@@ -1,5 +1,6 @@
 
 from fastapi import FastAPI
+from fastapi.security import OAuth2PasswordBearer
 from routers.blog_router import router as BlogRouter
 from routers.user_router import router as UserRouter
 from routers.project_router import router as ProjectRouter
@@ -12,6 +13,8 @@ app = FastAPI(redoc_url=None)
 origins = [
     "https://amrit-utsav.netlify.app"
 ]
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 app.add_middleware(
     CORSMiddleware,

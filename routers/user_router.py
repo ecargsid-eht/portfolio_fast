@@ -1,10 +1,10 @@
 from fastapi import APIRouter,Depends,HTTPException
 from database import database,models,schemas
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from jose import jwt,JWTError
 from dependencies import password_hash,verify_password
-from .JWTToken import create_access_token,ALGORITHM,SECRET_KEY
+from .JWTToken import create_access_token,ALGORITHM,SECRET_KEY,verify_admin
 
 
 
@@ -29,35 +29,20 @@ def get_users(db: Session = Depends(database.get_db)):
     users = db.query(models.User).all()
     return users
 
-@router.post("/login",status_code=200)
-def login_user(user: schemas.UserLogin, db:Session = Depends(database.get_db)):
-    selected_user = db.query(models.User).filter(models.User.email == user.email).first()
+@router.post("/login",status_code=200,response_model=schemas.Token)
+def login_user(db:Session = Depends(database.get_db),form_data: OAuth2PasswordRequestForm = Depends()):
+    selected_user = db.query(models.User).filter(models.User.email == form_data.username).first()
     if not selected_user:
         raise HTTPException(status_code=404,detail="User not found")
-    passw = verify_password(user.password,selected_user.password)
+    passw = verify_password(form_data.password,selected_user.password)
     if passw:
-        access_token = create_access_token(data={"sub": user.email})
+        access_token = create_access_token(data={"sub": form_data.username})
         return {"access_token": access_token, "token_type": "bearer"}
     else:
         raise HTTPException(status_code=401,detail="Incorrect password")    
 
 
 @router.post("/verify-admin/{token}",status_code=200)
-def verify_admin(token: str ,db: Session = Depends(database.get_db)):
-    credentials_exception = HTTPException(
-        status_code=401,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get("sub")
-        if email is None:
-            raise credentials_exception
-        token_data = schemas.TokenData(email=email)
-    except JWTError:
-        raise credentials_exception
-    user = db.query(models.User).filter(models.User.email == token_data.email).first()
-    if user is None:
-        raise credentials_exception
+
+def verify_user(user : schemas.User = Depends(verify_admin)):
     return user

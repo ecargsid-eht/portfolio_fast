@@ -1,6 +1,7 @@
 from fastapi import APIRouter,Depends,File,UploadFile
 from sqlalchemy.orm import Session
 from database import models,schemas,database
+from routers.JWTToken import oauth2_scheme
 
 
 router = APIRouter(
@@ -14,7 +15,7 @@ def get_blogs(db: Session = Depends(database.get_db)):
     return blogs
 
 @router.post("/create-blog",response_model=schemas.Blog,status_code=201)
-def create_blog(blog: schemas.BlogCreate,db: Session = Depends(database.get_db)):
+def create_blog(blog: schemas.BlogCreate,db: Session = Depends(database.get_db),token: str = Depends(oauth2_scheme)):
     new_blog = models.Blog(blog_title = blog.blog_title,content = blog.content)
     db.add(new_blog)
     db.commit()
