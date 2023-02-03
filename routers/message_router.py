@@ -1,4 +1,4 @@
-from fastapi import APIRouter,Depends
+from fastapi import APIRouter,Depends,HTTPException
 from database import database,models,schemas
 from sqlalchemy.orm import Session
 from routers.JWTToken import oauth2_scheme,verify_admin
@@ -23,6 +23,9 @@ def create_message(message: schemas.MessageCreate,db: Session = Depends(database
 
 @router.delete('/delete-message/{id}')
 def delete_message(id:int,db: Session = Depends(database.get_db),token: str = Depends(oauth2_scheme)):
-    db.query(models.Message).filter(models.Message.id == id).delete()
+    message = db.get(models.Message,id)
+    if not message:
+        raise HTTPException(status_code=404,detail="Message not found")
+    db.delete(message)
     db.commit()
     return id

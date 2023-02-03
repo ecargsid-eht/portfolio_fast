@@ -1,4 +1,4 @@
-from fastapi import APIRouter,Depends,File,UploadFile
+from fastapi import APIRouter,Depends,File,UploadFile,HTTPException
 from sqlalchemy.orm import Session
 from database import models,schemas,database
 from routers.JWTToken import oauth2_scheme
@@ -25,3 +25,13 @@ def create_blog(blog: schemas.BlogCreate,db: Session = Depends(database.get_db),
 @router.post("/blog-upload")
 def upload(file : UploadFile = File(...)):
     return file.filename
+
+@router.delete("/delete-blog/{id}")
+def delete_blog(id : int,db : Session = Depends(database.get_db),token: str = Depends(oauth2_scheme)):
+    blog = db.get(models.Blog,id)
+    if not blog:
+        raise HTTPException(status_code=404,detail="Blog not found")
+    db.delete(blog)
+    db.commit()
+    return id
+    
