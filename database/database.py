@@ -10,7 +10,7 @@ load_dotenv()
 
 # mysql
 # FOR HOSTING SERVER
-SQLALCHEMY_DATABASE_URL = f'mysql+pymysql://{os.getenv("MYSQLUSER")}:{os.getenv("MYSQLPASSWORD")}@{os.getenv("MYSQL_URL")}:{os.getenv("MYSQLPORT")}/{os.getenv("MYSQLDATABASE")}'
+SQLALCHEMY_DATABASE_URL = f'mysql+pymysql://{os.getenv("MYSQLUSER")}:{os.getenv("MYSQLPASSWORD")}@{os.getenv("MYSQLHOST")}:{os.getenv("MYSQLPORT")}/{os.getenv("MYSQLDATABASE")}'
 
 
 # FOR LOCALHOST
