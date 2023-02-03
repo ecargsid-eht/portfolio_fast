@@ -5,3 +5,4 @@ sqlalchemy
 uuid
 datetime
 python-jose[cryptography]
+pymysql
