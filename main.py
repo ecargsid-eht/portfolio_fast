@@ -11,8 +11,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(docs = None,redoc_url=None)
 origins = [
-    # "https://amrit-utsav.netlify.app",
-    "http://localhost:3000"
+    "https://amrit-utsav.netlify.app",
+    # "http://localhost:3000"
 ]
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")

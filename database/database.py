@@ -1,12 +1,18 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import os
 
 # SQLALCHEMY_DATABASE_URL = 'sqlite:///./sql_app.db'
 
 # mysql
 
-SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root:Iz6cWmDb4M2QGcLZ4hQL@containers-us-west-188.railway.app:5928/railway'
+# FOR HOSTING SERVER
+SQLALCHEMY_DATABASE_URL = f'mysql+pymysql://{os.getenv("MYSQLUSER")}:{os.getenv("MYSQLPASSWORD")}@{os.getenv("MYSQL_URL")}:{os.getenv("MYSQLPORT")}/{os.getenv("MYSQLDATABASE")}'
+
+
+# FOR LOCALHOST
+# SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root@db/test'
 # SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root@localhost/test'
 
 
