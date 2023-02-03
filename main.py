@@ -8,6 +8,8 @@ from routers.message_router import router as MessageRouter
 from database import models
 from database.database import engine,SessionLocal
 from fastapi.middleware.cors import CORSMiddleware
+import os
+
 
 app = FastAPI(docs = None,redoc_url=None)
 origins = [

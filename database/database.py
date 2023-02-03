@@ -2,11 +2,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # SQLALCHEMY_DATABASE_URL = 'sqlite:///./sql_app.db'
 
 # mysql
-
 # FOR HOSTING SERVER
 SQLALCHEMY_DATABASE_URL = f'mysql+pymysql://{os.getenv("MYSQLUSER")}:{os.getenv("MYSQLPASSWORD")}@{os.getenv("MYSQL_URL")}:{os.getenv("MYSQLPORT")}/{os.getenv("MYSQLDATABASE")}'
 
