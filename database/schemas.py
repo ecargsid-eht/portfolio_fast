@@ -81,3 +81,26 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: str | None = None
+
+
+# experience pydantic schema
+
+class ExperienceBase(BaseModel):
+    company_name : str
+    company_image : str | None
+    role : str
+    skills_used : str
+    location : str
+    start_date : datetime.date | None
+    finish_date : datetime.date | None
+
+
+
+
+class ExperienceCreate(ExperienceBase):
+    pass
+
+class Exprience(ExperienceBase):
+    id : int
+    class Config:
+        orm_mode = True

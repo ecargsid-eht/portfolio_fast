@@ -1,6 +1,6 @@
 import datetime
 from uuid import uuid4
-from sqlalchemy import DateTime, String,Integer,Text,Column,ForeignKey,UUID,Boolean
+from sqlalchemy import DateTime, String,Integer,Text,Column,ForeignKey,UUID,Boolean,Date
 from .database import Base
 
 class Project(Base):
@@ -37,3 +37,15 @@ class User(Base):
     email = Column(String(300),unique=True,index=True)
     password = Column(String(300))
     is_admin = Column(Boolean,default=True)
+
+class Experience(Base):
+    __tablename__ = 'experience'
+
+    id = Column(Integer,primary_key=True,autoincrement=True,index=True)
+    company_name = Column(String(300),index=True)
+    company_image = Column(String(300),nullable=True)
+    role = Column(String(150),index=True)
+    skills_used = Column(String(300))
+    location = Column(String(300))
+    start_date = Column(Date,default=datetime.date.today())
+    finish_date = Column(Date,nullable=True,default=None)

@@ -5,19 +5,22 @@ from routers.blog_router import router as BlogRouter
 from routers.user_router import router as UserRouter
 from routers.project_router import router as ProjectRouter
 from routers.message_router import router as MessageRouter
+from routers.experience_router import router as ExperienceRouter
 from database import models
 from database.database import engine,SessionLocal
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
-app = FastAPI(docs = None,redoc_url=None)
+app = FastAPI(docs=None,redoc_url=None)
 origins = [
-    "https://amrit-utsav.netlify.app",
-    # "http://localhost:3000"
+    # "https://amrit-utsav.netlify.app",
+    # "http://localhost:3000",
+    os.getenv("ALLOWED_HOST")
 ]
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 app.add_middleware(
     CORSMiddleware,
@@ -33,3 +36,4 @@ app.include_router(BlogRouter)
 app.include_router(UserRouter)
 app.include_router(ProjectRouter)
 app.include_router(MessageRouter)
+app.include_router(ExperienceRouter)

@@ -15,7 +15,7 @@ SQLALCHEMY_DATABASE_URL = f'mysql+pymysql://{os.getenv("MYSQLUSER")}:{os.getenv(
 
 # FOR LOCALHOST
 # SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root@db/test'
-# SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root@localhost/test'
+# SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root@localhost:3307/test'
 
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
