@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv
+import MySQLdb
 
 load_dotenv()
 
@@ -11,8 +12,7 @@ load_dotenv()
 # mysql
 # FOR HOSTING SERVER
 SQLALCHEMY_DATABASE_URL = f'mysql+pymysql://{os.getenv("MYSQLUSER")}:{os.getenv("MYSQLPASSWORD")}@{os.getenv("MYSQLHOST")}:{os.getenv("MYSQLPORT")}/{os.getenv("MYSQLDATABASE")}'
-
-
+# SQLALCHEMY_DATABASE_URL = f'mysql+pymysql://{os.getenv("USERNAMEE")}:{os.getenv("PASSWORD")}@{os.getenv("HOST")}:{os.getenv("PORT")}/{os.getenv("DATABASE")}'
 # FOR LOCALHOST
 # SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root@db/test'
 # SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root@localhost:3307/test'
@@ -20,7 +20,7 @@ SQLALCHEMY_DATABASE_URL = f'mysql+pymysql://{os.getenv("MYSQLUSER")}:{os.getenv(
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
-SessionLocal = sessionmaker(autocommit=False,autoflush=False,bind = engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 

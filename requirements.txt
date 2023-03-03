@@ -6,3 +6,4 @@ uuid
 datetime
 python-jose[cryptography]
 pymysql
+python-dotenv

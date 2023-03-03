@@ -1,5 +1,6 @@
 import datetime
 from fastapi import UploadFile
+import database.models as models
 from pydantic import BaseModel,Field,EmailStr
 
 # project pydantic schema
@@ -19,23 +20,46 @@ class Project(ProjectBase):
     class Config:
         orm_mode = True
 
+# tags pydantic schema
+
+class TagBase(BaseModel):
+    tag_name : str
+
+    class Meta:
+        orm_model = models.Tags
+
+class TagCreate(TagBase):
+    pass
+
+class Tag(TagBase):
+    id : int
+    
+    class Config:
+        orm_mode = True
+
+
 # blog pydantic schema
 
 class BlogBase(BaseModel):
     blog_title : str
+    blog_image : str 
     content : str
+    # tags : list[int]
+
+    
 
 class BlogCreate(BlogBase):
-    pass
+    tags : list[int]
 
 class Blog(BlogBase):
     id : int
-    published_at : datetime.datetime
+    published_at : datetime.date
+    tags : list[Tag]
 
     class Config:
         orm_mode = True
 
-# blog pydantic schema
+# message pydantic schema
 
 class MessageBase(BaseModel):
     user_name : str = Field(...,min_length=3)
@@ -104,3 +128,4 @@ class Exprience(ExperienceBase):
     id : int
     class Config:
         orm_mode = True
+

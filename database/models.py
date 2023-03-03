@@ -1,10 +1,18 @@
 import datetime
 from uuid import uuid4
-from sqlalchemy import DateTime, String,Integer,Text,Column,ForeignKey,UUID,Boolean,Date
+from sqlalchemy import DateTime, String,Integer,Text,Column,ForeignKey,Boolean,Date,Table
+from sqlalchemy.orm import relationship
 from .database import Base
 
-class Project(Base):
 
+# for many to many relationship
+
+blog_tags = Table('blog_tags',Base.metadata,
+    Column('blog_id', ForeignKey('blogs.id'),primary_key=True),
+    Column('tag_id',ForeignKey('tags.id'),primary_key=True)
+)
+
+class Project(Base):
     __tablename__ = "projects"
 
     id=Column(Integer, primary_key=True,autoincrement=True,index=True)
@@ -12,14 +20,28 @@ class Project(Base):
     description = Column(Text)
     link = Column(String(300),unique=True)
 
+class Tags(Base):
+    __tablename__ = 'tags'
+
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    tag_name = Column(String(100))
+    blogs = relationship("Blog",secondary=blog_tags,back_populates="tags")
+
+
 class Blog(Base):
     __tablename__ = "blogs"
 
     id=Column(Integer, primary_key=True,autoincrement=True,index=True)
-    blog_title = Column(String(300),unique=True,index=True) 
+    blog_title = Column(String(300),unique=True,index=True)
+    blog_image = Column(String(300))
     content = Column(Text)
-    published_at = Column(DateTime,default=datetime.datetime.now())
+    tags = relationship("Tags",secondary=blog_tags,back_populates="blogs")
+
+    published_at = Column(Date,default=datetime.date.today())
     
+
+
+
 class Message(Base):
     __tablename__ = "messages"
 
