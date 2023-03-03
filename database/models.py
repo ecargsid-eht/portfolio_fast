@@ -3,7 +3,7 @@ from uuid import uuid4
 from sqlalchemy import DateTime, String,Integer,Text,Column,ForeignKey,Boolean,Date,Table
 from sqlalchemy.orm import relationship
 from .database import Base
-
+import pytz
 
 # for many to many relationship
 
@@ -49,7 +49,7 @@ class Message(Base):
     user_name = Column(String(300),index=True)
     user_email = Column(String(300),index=True)
     message = Column(Text)
-    received_at = Column(DateTime,default=datetime.datetime.now())
+    received_at = Column(DateTime,default=datetime.datetime.now(pytz.timezone("Asia/Kolkata")))
 
 class User(Base):
     __tablename__ = "user"
