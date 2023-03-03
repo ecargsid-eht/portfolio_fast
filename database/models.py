@@ -49,7 +49,7 @@ class Message(Base):
     user_name = Column(String(300),index=True)
     user_email = Column(String(300),index=True)
     message = Column(Text)
-    received_at = Column(DateTime,default=datetime.datetime.now(pytz.timezone("Asia/Kolkata")))
+    received_at = Column(DateTime,default=datetime.datetime.now)
 
 class User(Base):
     __tablename__ = "user"
