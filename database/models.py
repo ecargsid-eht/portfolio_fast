@@ -6,13 +6,15 @@ from .database import Base
 import pytz
 
 
-time_for_default = datetime.datetime.now
 # for many to many relationship
 
 blog_tags = Table('blog_tags',Base.metadata,
     Column('blog_id', ForeignKey('blogs.id'),primary_key=True),
     Column('tag_id',ForeignKey('tags.id'),primary_key=True)
 )
+def time_for_default():
+    return datetime.datetime.now(pytz.timezone("Asia/Kolkata"))
+
 
 class Project(Base):
     __tablename__ = "projects"
@@ -51,7 +53,7 @@ class Message(Base):
     user_name = Column(String(300),index=True)
     user_email = Column(String(300),index=True)
     message = Column(Text)
-    received_at = Column(DateTime,default=time_for_default(pytz.timezone("Asia/Kolkata")))
+    received_at = Column(DateTime,default=time_for_default)
 
 class User(Base):
     __tablename__ = "user"

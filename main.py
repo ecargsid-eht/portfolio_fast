@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = FastAPI(redoc_url=None)
+app = FastAPI(docs=None,redoc_url=None)
 origins = [
     # "https://amrit-utsav.netlify.app",
     # "http://localhost:3000",
