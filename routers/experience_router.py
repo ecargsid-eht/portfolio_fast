@@ -29,3 +29,12 @@ def delete_experiences(id: int,db : Session = Depends(database.get_db),token : s
     db.delete(experience)
     db.commit()
     return id
+
+@router.patch("/update-experience/{id}",response_model=schemas.Exprience)
+def update_experience(exp: schemas.ExperienceCreate,id:int, db : Session = Depends(database.get_db), token : str = Depends(oauth2_scheme)):
+    experience = db.query(models.Experience).filter(models.Experience.id == id)
+    if not experience.first():
+        raise HTTPException(status_code=404,detail="Experience not found")
+    experience.update(exp.dict(exclude_unset = True))
+    db.commit()
+    return experience.first()
