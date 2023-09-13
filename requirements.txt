@@ -7,3 +7,4 @@ datetime
 python-jose[cryptography]
 pymysql
 python-dotenv
+psycopg2-binary
